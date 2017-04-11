@@ -1,27 +1,22 @@
 # generator-cucumber-steps [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> Fast steps-defs based on features generation :watermelon:
+> Быстрая генерация step-defs файла на основе существующих фич :watermelon:
 
-## Installation
+Вас утомило постоянно создавать файл с описанием шагов? Меня тоже, поэтому я решил упростить себе задачу.
 
-First, install [Yeoman](http://yeoman.io) and generator-cucumber-steps using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+## Установка
 
 ```bash
 npm install -g yo
 npm install -g generator-cucumber-steps
 ```
 
-Then generate your new project:
+## Запуск
 
 ```bash
 yo cucumber-steps
 ```
 
-## Getting To Know Yeoman
-
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+Выберите путь до `feature`-файла (можно без указания расширения файла) и место, где будет сгенерирован файл с объявлением шагов. Все просто!
 
 ## License
 
