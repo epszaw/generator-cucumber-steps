@@ -17,7 +17,7 @@ module.exports = class extends Generator {
       {
         type: 'input',
         name: 'featurePath',
-        message: 'Specify the path to the target .feature file (test.feature || path/to/test.feature):',
+        message: 'Specify the path to the target .feature file (test.feature || path/to/test):',
         default: null,
         required: true
       },
@@ -42,11 +42,18 @@ module.exports = class extends Generator {
       throw new Error('Features path must not be empty!');
     }
 
-    const featureFile = fs.readFileSync(featurePath, 'utf-8');
+    const featureFile = fs.readFileSync(
+      /\.feature$/.test(featurePath) ? featurePath : `${featurePath}.feature`,
+      'utf-8'
+    );
+    let featureName = featurePath.split('/');
+    featureName = featureName[featureName.length - 1];
+    featureName = /\.feature$/.test(featureName) ? featureName : `${featureName}.feature`;
+    featureName = featureName.slice(0, featureName.indexOf('.'));
 
     this.fs.copyTpl(
       this.templatePath('bootstrap.js'),
-      this.destinationPath(`${stepsPath}/1.js`),
+      this.destinationPath(`${stepsPath}/${featureName}.steps.js`),
       {
         steps: this.parseFeature(featureFile).join('\n')
       }
@@ -66,12 +73,14 @@ module.exports = class extends Generator {
         path.resolve(__dirname, 'templates/step.js'),
         'utf-8'
       );
+
       children.map(child => {
         const {type, steps} = child;
         if (type === 'Scenario' || type === 'ScenarioOutline') {
           parsedFeature = parsedFeature.concat(this.parseSteps(steps, stepTemplate, language));
         }
       });
+
       return parsedFeature;
     }
   }
@@ -80,6 +89,7 @@ module.exports = class extends Generator {
     if (steps) {
       let parsedSteps = [];
       const currentDictionary = directory[language];
+
       steps.map(step => {
         const {keyword, text} = step;
         let options = {
@@ -87,7 +97,9 @@ module.exports = class extends Generator {
           regexp: null,
           parameters: []
         };
+
         let stepData = this.parseStepString(text);
+
         Object.keys(currentDictionary).map(key => {
           if (currentDictionary[key] instanceof Array) {
             if (currentDictionary[key].includes(keyword)) {
@@ -101,6 +113,7 @@ module.exports = class extends Generator {
         });
         parsedSteps = parsedSteps.concat(ejs.render(template, options));
       });
+
       return parsedSteps;
     }
   }
@@ -111,6 +124,7 @@ module.exports = class extends Generator {
         parameters: []
       };
       const paramRegexp = /(["'])(?:(?=(\\?))\2.)*?\1/g;
+
       if (paramRegexp.test(stepString)) {
         let i = 1;
         stepData = Object.assign(stepData, {
@@ -127,6 +141,7 @@ module.exports = class extends Generator {
           regexp: `${stepString}`
         });
       }
+
       return stepData;
     }
   }
