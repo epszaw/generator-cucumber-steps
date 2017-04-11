@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "lamartire",
+      "authorEmail": "lamartire@gmail.com",
+      "authorUrl": "darkened.space"
+    }
+  }
+}

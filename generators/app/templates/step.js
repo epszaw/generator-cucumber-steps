@@ -1,0 +1,3 @@
+  <%= keyword %>(/^<%= regexp %>$/, function(<%= parameters %>) {
+
+  });
