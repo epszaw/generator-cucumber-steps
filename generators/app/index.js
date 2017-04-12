@@ -1,9 +1,7 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
-const ejs = require('ejs');
 const fs = require('fs');
-const path = require('path');
 const Gherkin = require('gherkin');
 const directory = require('gherkin/lib/gherkin/gherkin-languages');
 
@@ -46,6 +44,7 @@ module.exports = class extends Generator {
       /\.feature$/.test(featurePath) ? featurePath : `${featurePath}.feature`,
       'utf-8'
     );
+    const parsedFeature = this.parseFeature(featureFile);
     let featureName = featurePath.split('/');
     featureName = featureName[featureName.length - 1];
     featureName = /\.feature$/.test(featureName) ? featureName : `${featureName}.feature`;
@@ -55,7 +54,7 @@ module.exports = class extends Generator {
       this.templatePath('bootstrap.js'),
       this.destinationPath(`${stepsPath}/${featureName}.steps.js`),
       {
-        steps: this.parseFeature(featureFile).join('\n')
+        steps: parsedFeature
       }
     );
   }
@@ -69,15 +68,13 @@ module.exports = class extends Generator {
         language,
         children
       } = feature;
-      const stepTemplate = fs.readFileSync(
-        path.resolve(__dirname, 'templates/step.js'),
-        'utf-8'
-      );
 
       children.map(child => {
         const {type, steps} = child;
         if (type === 'Scenario' || type === 'ScenarioOutline') {
-          parsedFeature = parsedFeature.concat(this.parseSteps(steps, stepTemplate, language));
+          parsedFeature = parsedFeature.concat(
+            this.parseSteps(steps, language)
+          );
         }
       });
 
@@ -85,7 +82,7 @@ module.exports = class extends Generator {
     }
   }
 
-  parseSteps(steps, template, language) {
+  parseSteps(steps, language) {
     if (steps) {
       let parsedSteps = [];
       const currentDictionary = directory[language];
@@ -111,7 +108,7 @@ module.exports = class extends Generator {
             }
           }
         });
-        parsedSteps = parsedSteps.concat(ejs.render(template, options));
+        parsedSteps = parsedSteps.concat(options);
       });
 
       return parsedSteps;
@@ -120,15 +117,16 @@ module.exports = class extends Generator {
 
   parseStepString(stepString) {
     if (stepString) {
+      const paramRegexp = /"(.*?(\W*).*?)"/gm;
       let stepData = {
         parameters: []
       };
-      const paramRegexp = /(["'])(?:(?=(\\?))\2.)*?\1/g;
 
       if (paramRegexp.test(stepString)) {
+        const stepRegexp = stepString.replace(paramRegexp, '"(.*)"');
         let i = 1;
         stepData = Object.assign(stepData, {
-          regexp: `${stepString.replace(paramRegexp, '"(.*)"')}`
+          regexp: stepRegexp
         });
         while (i <= stepString.match(paramRegexp).length) {
           stepData = Object.assign(stepData, {

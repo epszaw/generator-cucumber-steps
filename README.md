@@ -20,7 +20,7 @@ yo cucumber-steps
 
 ## License
 
-MIT © [lamartire](darkened.space)
+MIT © [lamartire](lamartire@gmail.com)
 
 
 [npm-image]: https://badge.fury.io/js/generator-cucumber-steps.svg
