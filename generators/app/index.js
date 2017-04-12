@@ -100,8 +100,9 @@ module.exports = class extends Generator {
         Object.keys(currentDictionary).map(key => {
           if (currentDictionary[key] instanceof Array) {
             if (currentDictionary[key].includes(keyword)) {
+              const keyword = key === 'and' ? 'when' : key;
               options = Object.assign(options, {
-                keyword: key.charAt(0).toUpperCase() + key.slice(1, key.length),
+                keyword: keyword.charAt(0).toUpperCase() + keyword.slice(1, keyword.length),
                 regexp: stepData.regexp,
                 parameters: stepData.parameters
               });
