@@ -22,6 +22,48 @@ yo cucumber-steps
 
 Select path to the `feature`-file (without file extension) and location where will be generated a stepsDefs file. It's simple!
 
+## Examples
+
+```gherkin
+Feature: title
+  Scenario: title
+    Given precondition with "1" and "2"
+    When action
+    And addition
+    Then testable outcome equals "1"
+```
+If you have same feature with parameters, you'll recieve:
+
+```javascript
+const {defineSupportCode} = require('cucumber');
+
+defineSupportCode(function ({Given, When, Then}) {
+
+  Given(/^precondition with "(.*)" and "(.*)"$/, function (param1, param2) {
+    return true;
+  });
+
+  When(/^action$/, function () {
+    return true;
+  });
+
+  And(/^addition$/, function () {
+    return true;
+  });
+
+  Then(/^testable outcome equals "(.*)"$/, function (param1) {
+    return true;
+  });
+
+});
+```
+
+## Some notes
+
+Dictionary in new version of gherkin was changed. Be careful if you write your features with locale support!
+
+For example, in Russian localization, key word `Если` now refer to `Given`. Use `Когда` or synonyms of `И`.
+
 ## License
 
 MIT © [lamartire](lamartire@gmail.com)
