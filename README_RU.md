@@ -1,26 +1,26 @@
 # generator-cucumber-steps [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> Fast steps-defs based on features generation :watermelon:
+> Быстрая генерация step-defs файла на основе существующих фич :watermelon:
 
 ![demo](http://i.imgur.com/Wh078Pu.gif)
 
-[This docs on Russian](https://github.com/lamartire/generator-cucumber-steps/blob/master/README_RU.md).
+[Эта документация на английском](https://github.com/lamartire/generator-cucumber-steps/blob/master/README.md).
 
-You are tired of creating a "steps file"? Me too, so I decided to simplify my problem.
+Вас утомило постоянно создавать файл с описанием шагов? Меня тоже, поэтому я решил упростить себе задачу.
 
-## Installation
+## Установка
 
 ```bash
 npm install -g yo
 npm install -g generator-cucumber-steps
 ```
 
-## Executing
+## Запуск
 
 ```bash
 yo cucumber-steps
 ```
 
-Select path to the `feature`-file (without file extension) and location where will be generated a stepsDefs file. It's simple!
+Выберите путь до `feature`-файла (можно без указания расширения файла) и место, где будет сгенерирован файл с объявлением шагов. Все просто!
 
 ## License
 
