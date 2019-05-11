@@ -1,4 +1,7 @@
 # generator-cucumber-steps [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/lamartire/generator-cucumber-steps.svg)](https://greenkeeper.io/)
+
 > Fast steps-defs based on features generation :watermelon:
 
 ![demo](http://i.imgur.com/Wh078Pu.gif)
